@@ -53,7 +53,7 @@ BOOL CHelloWorldView::PreCreateWindow(CREATESTRUCT& cs)
 
 // CHelloWorldView drawing
 
-void CHelloWorldView::OnDraw(CDC* /*pDC*/)
+void CHelloWorldView::OnDraw(CDC* pDC)
 {
 	CHelloWorldDoc* pDoc = GetDocument();
 	ASSERT_VALID(pDoc);
@@ -61,6 +61,13 @@ void CHelloWorldView::OnDraw(CDC* /*pDC*/)
 		return;
 
 	// TODO: add draw code for native data here
+	///For drawing order is matter, suppose rectangle should drawn first then others so that everything visible
+	pDC->Rectangle(10, 20, 600, 400); //left corner and right corner
+	pDC->TextOutW(300, 100, _T("Hello there!"));
+	pDC->MoveTo(40, 200); //starting point
+	pDC->LineTo(400, 300); //ending point
+	pDC->Ellipse(400, 400, 800, 500);
+
 }
 
 
@@ -128,10 +135,10 @@ CHelloWorldDoc* CHelloWorldView::GetDocument() const // non-debug version is inl
 // CHelloWorldView message handlers
 
 
-void CHelloWorldView::OnLButtonDown(UINT nFlags, CPoint point) //Upon clicking left button, a window pops
+/*void CHelloWorldView::OnLButtonDown(UINT nFlags, CPoint point) //Upon clicking left button, a window pops
 {
 	// TODO: Add your message handler code here and/or call default
 	AfxMessageBox(_T("Hello there"));
 
 	CView::OnLButtonDown(nFlags, point);
-}
+}*/
