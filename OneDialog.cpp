@@ -7,6 +7,7 @@
 #include "afxdialogex.h"
 
 
+
 // COneDialog dialog
 
 IMPLEMENT_DYNAMIC(COneDialog, CDialogEx)
