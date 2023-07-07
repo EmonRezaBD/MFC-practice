@@ -54,7 +54,7 @@ public:
 	afx_msg void OnCbnSelchangeCombo1();
 	afx_msg void OnCbnSelchangeCombo2();
 	afx_msg void OnContextMenu(CWnd* /*pWnd*/, CPoint /*point*/);
-	afx_msg void OnExportContextMenu();
+	//afx_msg void OnExportContextMenu();
 
 	//void ExportChartToJpg(CChartCtrl&,CString);
 
@@ -65,4 +65,6 @@ public:
 	void generateGraph();
 
 	
+	afx_msg void OnExportdataExportgraph();
+	afx_msg void OnExportdata();
 };

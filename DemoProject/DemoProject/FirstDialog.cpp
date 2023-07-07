@@ -67,8 +67,10 @@ BEGIN_MESSAGE_MAP(CFirstDialog, CDialogEx)
 	ON_CBN_SELCHANGE(IDC_COMBO1, &CFirstDialog::OnCbnSelchangeCombo1)
 	ON_CBN_SELCHANGE(IDC_COMBO2, &CFirstDialog::OnCbnSelchangeCombo2)
 	ON_WM_CONTEXTMENU()
-	ON_COMMAND(ID_EXPORTDATA, &CFirstDialog::OnExportContextMenu)
+	//ON_COMMAND(ID_EXPORTDATA, &CFirstDialog::OnExportContextMenu)
 
+	ON_COMMAND(ID_EXPORTDATA_EXPORTGRAPH, &CFirstDialog::OnExportdataExportgraph)
+	ON_COMMAND(ID_EXPORTDATA, &CFirstDialog::OnExportdata)
 END_MESSAGE_MAP()
 
 CFirstDialog* CFirstDialog::child = NULL;
@@ -152,7 +154,7 @@ void CFirstDialog::OnContextMenu(CWnd* /*pWnd*/, CPoint point)
 		mnuPopupMenu->TrackPopupMenu(TPM_LEFTALIGN | TPM_RIGHTALIGN, point.x, point.y, this);
 }
 
-void CFirstDialog::OnExportContextMenu()
+/*void CFirstDialog::OnExportContextMenu()
 {
 	CStdioFile file;
 	file.Open(_T("graphData.csv"), CFile::modeCreate | CFile::modeWrite | CFile::typeText);
@@ -171,7 +173,7 @@ void CFirstDialog::OnExportContextMenu()
 
 	file.Close();
 
-}
+}*/
 
 void CFirstDialog::OnCbnSelchangeCombo1()
 {
@@ -275,7 +277,7 @@ void CFirstDialog::OnBnClickedExportgraphbtn()
 	}
 	
 
-	//Creating CSV file
+	//Creating CSV file //This code also works
 	/*CStdioFile file;
 	file.Open(_T("graphData.csv"), CFile::modeCreate | CFile::modeWrite | CFile::typeText);
 
@@ -361,3 +363,41 @@ void CFirstDialog::CopyValues() {
 
 }
 
+void CFirstDialog::OnExportdataExportgraph()
+{
+	// TODO: Add your command handler code here
+	LPCTSTR pszFilter = _T("JPEG (*.jpg)|*.jpg|")
+		_T("CSV (*.csv)|*.csv|")
+		_T("Text (*.txt)|*.txt");
+	//TCHAR pszFilter[] = _T("JPEG Files (*.jpg)|*.jpg|All Files (*.*)|*.*||");
+
+	CFileDialog dlgFile(FALSE, _T("jpg"), _T("Untitled"), OFN_HIDEREADONLY | OFN_FILEMUSTEXIST| OFN_OVERWRITEPROMPT, pszFilter, AfxGetMainWnd());
+	try {
+		if (IDOK == dlgFile.DoModal()) {
+			string filepathAndName = string(CT2A(dlgFile.GetPathName()));
+			std::wstring path(filepathAndName.begin(), filepathAndName.end());
+			string fileExt = string(CT2A(dlgFile.GetFileExt()));
+			CRect rect;
+			if (fileExt == "jpg") {
+				m_ChartCtrl.SaveAsImage(path, rect, 32, Gdiplus::ImageFormatJPEG);
+				AfxMessageBox(L"File Saved Sucessfully!");
+			}
+
+		}
+	}
+	catch(CFileException * E){
+		CString error;
+		error.Format(_T("File could not be saved, cause = %d\n"), E->m_cause);
+		AfxMessageBox(error);
+		E->Delete();
+	}
+
+
+
+}
+
+
+void CFirstDialog::OnExportdata()
+{
+	// TODO: Add your command handler code here
+}
